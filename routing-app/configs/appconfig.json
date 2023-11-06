@@ -1,0 +1,13 @@
+{
+    "routingAlgorithm": "RoundRobin",
+    "requestHandling": {
+      "maxRetries": 2,
+      "timeoutSeconds": 2
+    },
+    "healthCheck": {
+      "path": "/status",
+      "numRequired": 2,
+      "intervalSeconds": 5,
+      "timeoutSeconds": 2
+    }
+}
