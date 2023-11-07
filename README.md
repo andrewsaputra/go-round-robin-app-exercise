@@ -29,7 +29,7 @@ Write a round robin API which receives HTTP Posts and routes them to one of a li
 | Directory | Description | Pull Requests | Documentation |
 | --- | --- | --- | --- |
 | receiver-app | Contain project codes for application hosting Routing API functionalities (`R1 - R3`). | [PR #1](https://github.com/andrewsaputra/go-round-robin-app-exercise/pull/1) | [Document](https://github.com/andrewsaputra/go-round-robin-app-exercise/blob/main/receiver-app/README.md) |
-| routing-app | Contain project codes for application hosting Routing API functionalities (`R4 - R6`). | [PR #2](https://github.com/andrewsaputra/go-round-robin-app-exercise/pull/2) | [Document](https://github.com/andrewsaputra/go-round-robin-app-exercise/blob/main/routing-app/README.md) |
+| routing-app | Contain project codes for application hosting Routing API functionalities (`R4 - R6`). | [PR #2](https://github.com/andrewsaputra/go-round-robin-app-exercise/pull/2), [PR #3](https://github.com/andrewsaputra/go-round-robin-app-exercise/pull/3) | [Document](https://github.com/andrewsaputra/go-round-robin-app-exercise/blob/main/routing-app/README.md) |
 
 For overview simplicity, codes for both applications are available in this same repository.
 
@@ -47,12 +47,19 @@ go run . 4002
 go run . 4003
 ...
 ```
-4. Adjust the contents of `Routing API`'s [config](https://github.com/andrewsaputra/go-round-robin-app-exercise/blob/main/routing-app/configs/handlerconfig.json) file with correct host addresses from previous step, and other desirable values
+4. Optionally adjust the contents of `Routing API`'s [config](https://github.com/andrewsaputra/go-round-robin-app-exercise/blob/main/routing-app/configs/appconfig.json) file with desired customizations
 5. Spawn another terminal which we'll use to host `Routing API` instance
 6. `cd ${REPO_ROOT}/routing-app` on the new terminal
 7. Start `Routing API` instance by running the following command. Currently it's coded to always use port `3000`.
 ```
 go run .
+```
+8. Register desired `Receiver API` instances as targets of `Routing API`
+```
+curl localhost:3000/registerhost -d '{"hostAddress" : "http://localhost:4001"}'
+curl localhost:3000/registerhost -d '{"hostAddress" : "http://localhost:4002"}'
+curl localhost:3000/registerhost -d '{"hostAddress" : "http://localhost:4003"}'
+...
 ```
 
 Both applications are now running. You can now use http request tools, e.g. : curl, postman, browser, etc to invoke calls to Routing API.
@@ -60,9 +67,9 @@ Both applications are now running. You can now use http request tools, e.g. : cu
 Command examples : 
 - `curl localhost:3000/status`
 ```
-{"startedAt":"Wed, 18 Oct 2023 15:09:16 +0700","status":"Healthy"}```
+{"startedAt":"Tue, 07 Nov 2023 21:35:55 +0700","status":"Healthy"}
 ```
-- `curl -X POST localhost:3000/routejson -d '{"game":"Mobile Legends", "gamerID":"GYUTDTE", "points":20}'`
+- `curl -X POST localhost:3000/echojson -d '{"game":"Mobile Legends", "gamerID":"GYUTDTE", "points":20}'`
 ```
 {"game":"Mobile Legends", "gamerID":"GYUTDTE", "points":20}
 ```
