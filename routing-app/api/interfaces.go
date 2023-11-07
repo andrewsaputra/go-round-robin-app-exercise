@@ -6,10 +6,12 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-type Handler interface {
-	RouteJson(c *gin.Context)
+type RequestRouter interface {
+	ForwardRequest(*http.Request) (*http.Response, error)
 }
 
-type HttpConnector interface {
-	DoPost(url string, body []byte) (*http.Response, error)
+type Handler interface {
+	RegisterHost(c *gin.Context)
+	DeregisterHost(c *gin.Context)
+	ForwardRequest(c *gin.Context)
 }

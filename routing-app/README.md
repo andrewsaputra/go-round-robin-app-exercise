@@ -8,10 +8,12 @@ Typically we can utilize circuit breaker frameworks to help with the failure han
 
 ## API Endpoints
 
-| Path | Method | Payload |Description |
-| --- | --- | --- | --- |
-| `/status` | GET | - | Return HealthCheck status of the application |
-| `/routejson` | POST | string | Process client request. Request payload must be a valid json string. |
+| Path | Method |Description |
+| --- | --- | --- |
+| `/status` | GET | Return HealthCheck status of the application |
+| `/registerhost` | POST | Register new host to load balancer targets. |
+| `/deregisterhost` | POST | Deregister host from load balancer targets. |
+| `/*` | ANY | Receive requests and forward it load balancer target(s) using specified routing algorithm. |
 
 ## Usage 
 
@@ -48,7 +50,17 @@ Request Examples :
 {"startedAt":"Wed, 18 Oct 2023 15:09:16 +0700","status":"Healthy"}
 ```
 
-- `curl -X POST localhost:3000/routejson -d '{"game":"Mobile Legends", "gamerID":"GYUTDTE", "points":20}'`
+- `curl localhost:3000/registerhost -d '{"hostAddress" : "http://localhost:4001"}'`
+```
+{"message":"Successful registration"}
+```
+
+- `curl localhost:3000/deregisterhost -d '{"hostAddress" : "http://localhost:4001"}'`
+```
+{"message":"Successful deregistration"}
+```
+
+- `curl -X POST localhost:3000/echojson -d '{"game":"Mobile Legends", "gamerID":"GYUTDTE", "points":20}'`
 ```
 {"game":"Mobile Legends", "gamerID":"GYUTDTE", "points":20}
 ```
